@@ -18,3 +18,9 @@ export const postAnimal = async (collection, req, reply) => {
 
   return result;
 };
+
+export const deleteAnimal = async (collection, req, reply) => {
+  const result = await collection.deleteOne({ animal: req.params.animal });
+
+  return result;
+};

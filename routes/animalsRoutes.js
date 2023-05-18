@@ -1,4 +1,5 @@
 import {
+  deleteAnimal,
   getAnimal,
   getAnimals,
   postAnimal,
@@ -43,9 +44,31 @@ export const animalRoutes = async (fastify, options) => {
     handler: postAnimal.bind(null, collection),
   };
 
+  const deleteAnimalOpt = {
+    schema: {
+      params: {
+        type: "object",
+        properties: {
+          animal: { type: "string" },
+        },
+      },
+      response: {
+        200: {
+          type: "object",
+          properties: {
+            deletedCount: { type: "number" },
+          },
+        },
+      },
+    },
+    handler: deleteAnimal.bind(null, collection),
+  };
+
   fastify.get("/animals", getAnimalsOpt);
 
   fastify.get("/animals/:animal", getAnimalOpt);
 
   fastify.post("/animals", postAnimalOpt);
+
+  fastify.delete("/animals/:animal", deleteAnimalOpt);
 };
