@@ -3,6 +3,7 @@ import {
   getAnimal,
   getAnimals,
   postAnimal,
+  updateAnimal,
 } from "../controllers/animalController.js";
 
 export const animalRoutes = async (fastify, options) => {
@@ -41,17 +42,13 @@ export const animalRoutes = async (fastify, options) => {
     schema: {
       body: animalJsonSchema,
     },
+
     handler: postAnimal.bind(null, collection),
   };
 
   const deleteAnimalOpt = {
     schema: {
-      params: {
-        type: "object",
-        properties: {
-          animal: { type: "string" },
-        },
-      },
+      params: animalJsonSchema,
       response: {
         200: {
           type: "object",
@@ -64,6 +61,23 @@ export const animalRoutes = async (fastify, options) => {
     handler: deleteAnimal.bind(null, collection),
   };
 
+  const updateAnimalOpt = {
+    schema: {
+      params: animalJsonSchema,
+      body: animalJsonSchema,
+      response: {
+        200: {
+          type: "object",
+          properties: {
+            value: animalJsonSchema,
+            ok: { type: "number" },
+          },
+        },
+      },
+    },
+    handler: updateAnimal.bind(null, collection),
+  };
+
   fastify.get("/animals", getAnimalsOpt);
 
   fastify.get("/animals/:animal", getAnimalOpt);
@@ -71,4 +85,6 @@ export const animalRoutes = async (fastify, options) => {
   fastify.post("/animals", postAnimalOpt);
 
   fastify.delete("/animals/:animal", deleteAnimalOpt);
+
+  fastify.put("/animals/:animal", updateAnimalOpt);
 };

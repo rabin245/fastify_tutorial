@@ -24,3 +24,12 @@ export const deleteAnimal = async (collection, req, reply) => {
 
   return result;
 };
+
+export const updateAnimal = async (collection, req, reply) => {
+  const result = collection.findOneAndUpdate(
+    { animal: req.params.animal },
+    { $set: { animal: req.body.animal } }
+  );
+
+  return result;
+};
