@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import { routes as firstRoute } from "./our-first-route.js";
 import dbConnector from "./our-db-connector.js";
+import { animalRoutes } from "./routes/animalsRoutes.js";
 
 // instantiate Fastify with some config
 const fastify = Fastify({
@@ -12,6 +13,7 @@ fastify.register(dbConnector);
 
 // register routes
 fastify.register(firstRoute);
+fastify.register(animalRoutes);
 
 // run server
 const start = async () => {
